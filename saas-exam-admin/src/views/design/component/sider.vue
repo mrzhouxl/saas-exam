@@ -78,14 +78,14 @@ const comData = [
     is: 'swiper',
     props: {
       items: [
-        // {
-        //   name:'11222',
-        //   image: 'https://worthdaily-app.oss-cn-hangzhou.aliyuncs.com/files/1662002380085-5eac63182543f541.png'
-        // },
-        // {
-        //   name:'333',
-        //   image: 'https://worthdaily-app.oss-cn-hangzhou.aliyuncs.com/files/1641805253137-4ece85df5733adba.png'
-        // }
+        {
+          name:'11222',
+          image: 'https://worthdaily-app.oss-cn-hangzhou.aliyuncs.com/files/1662002380085-5eac63182543f541.png'
+        },
+        {
+          name:'333',
+          image: 'https://worthdaily-app.oss-cn-hangzhou.aliyuncs.com/files/1641805253137-4ece85df5733adba.png'
+        }
       ],
       only:true
     }
