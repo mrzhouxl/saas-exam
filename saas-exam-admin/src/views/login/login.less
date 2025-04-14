@@ -1,0 +1,113 @@
+@loginFromColor: linear-gradient(-40deg, #24C7FC, #0349FA);
+
+.content {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: url('添加背景') no-repeat;
+  background-size: 100% 100%;
+  box-sizing: border-box;
+
+  .loginFrom {
+    display: flex;
+    width: 791px;
+    height: 477px;
+    background: #fff;
+    border-radius: 11px;
+    overflow: hidden;
+
+    .left {
+      width: 375px;
+      background: @loginFromColor;
+      height: 100%;
+      position: relative;
+
+      .leftContent {
+        margin-top: 39px;
+        margin-left: 47px;
+        color: #fff;
+
+        .line {
+          width: 25px;
+          height: 3px;
+          background: #FFFFFF;
+
+        }
+
+        .text1 {
+          font-size: 30px;
+          font-family: 58;
+          font-weight: 400;
+          margin: 15px 0;
+        }
+
+        .text2 {
+          font-size: 11px;
+          font-family: 58;
+          font-weight: 400;
+          width: 276px;
+        }
+      }
+
+      img {
+        position: absolute;
+        bottom: 0;
+        left: 5%;
+        width: 100%;
+      }
+    }
+
+    .right {
+      flex: 1;
+      width: 100%;
+      justify-content: center;
+      .loginInput{
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: center;
+        height: 42px;
+        padding: 50px;
+        box-sizing: border-box;
+      }
+      .button{
+        text-align: center;
+        box-sizing: border-box;
+        padding: 0 50px;
+        button{
+          width: 100%;
+        }
+      }
+      .register{
+        display: flex;
+        padding:0 50px;
+        justify-content: space-between ;
+        div{
+          font-size: 12px;
+        }
+      }
+      .textTop {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: 40px;
+        margin-top: 71px;
+        span {
+          font-size: 17px;
+          font-family: SJcujihei;
+          font-weight: 400;
+          color: #0076FE;
+        }
+
+        .line {
+          width: 36px;
+          height: 3px;
+          background: #0076FE;
+          opacity: 0.2;
+        }
+      }
+    }
+  }
+}

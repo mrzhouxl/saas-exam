@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+.mt-8 {
+  margin-top: 8px !important;
+}
+
+.ml-8 {
+  margin-left: 8px !important;
+}
+
+.mr-8 {
+  margin-right: 8px !important;
+}
+
+.mb-8 {
+  margin-bottom: 8px !important;
+}
+
+* {
+  --td-brand-color: #0A65FB;
+  --td-warning-color: yellow;
+  --td-error-color: red;
+  --td-success-color: green;
+  padding: 0;
+  margin: 0;
+}
+
+.t-tree__icon .t-folder-icon:hover {
+  background: red !important;
+}
+
+.t-tree--block-node .t-tree__label {
+  flex: none !important;
+}
+
+.t-tree__icon:not(:empty):hover:after {
+  opacity: 0 !important;
+}
+
+.t-tree__item .t-tree__item--open {
+  width: 150px !important;
+}
+
+.t-tree__label {
+  width: 150px !important;
+}
+
+.rich-text {
+  display: flex;
+  align-items: center;
+  min-width: 350px;
+  min-height: 35px;
+  padding-left: 8px;
+  margin-bottom: 3px;
+  cursor: pointer;
+  border: 1px dashed #fff;
+}
+  
+.rich-text:focus-within {
+  background: #f4f4f4;
+  cursor: auto;
+  outline: none;
+}
+
+.rich-text:hover {
+  border: 1px dashed #999999;
+}
