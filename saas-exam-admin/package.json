@@ -32,6 +32,7 @@
     "tdesign-vue-next": "1.9.6",
     "uuid": "^8.3.2",
     "vue": "^3.4.27",
+    "vue-drag-resize": "^1.5.4",
     "vue-router": "^4.1.2",
     "vue3-eventbus": "^2.0.0",
     "vuedraggable-es": "^4.1.1"
