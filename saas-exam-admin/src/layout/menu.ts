@@ -74,6 +74,13 @@ export const menus: Menu[] = [
         icon: 'icon-shijuan',
         size: '1rem'
       },
+      {
+        path: '/reserve/design',
+        name: '预约设计',
+        children: [],
+        icon: 'icon-yiliao_peizhijiemian',
+        size: '1rem'
+      },
       // {
       //   path: '/exam/observer',
       //   name: '监测',

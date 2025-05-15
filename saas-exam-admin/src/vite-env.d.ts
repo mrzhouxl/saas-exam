@@ -13,3 +13,4 @@ declare module '*.tsx' {
 }
 
 declare module 'vue3-eventbus';
+declare module 'vue-drag-resize';

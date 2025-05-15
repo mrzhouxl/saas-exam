@@ -24,10 +24,14 @@
     }
   },
   "include": [
+    "packages/**/*.ts",
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "typings/**/*.ts",
+    "typings/**/*.d.ts",
+    "src/hooks/useMaterial.js",
   ],
   "references": [
     {

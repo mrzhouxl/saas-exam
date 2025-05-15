@@ -12,8 +12,13 @@ import '@/assets/css/style.css'
 import 'tdesign-vue-next/es/style/index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '@nutui/icons-vue/dist/style_iconfont.css'
+import Vue3DraggableResizable from 'vue3-draggable-resizable'
+//需引入默认样式
+import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
+
 
 const app = createApp(App);
+app.use(Vue3DraggableResizable)
 registerCom(app)
 app.directive('pointer', {
   mounted: (el: any) => {
