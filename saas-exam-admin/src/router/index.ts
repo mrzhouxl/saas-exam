@@ -52,12 +52,13 @@ const routes: RouteRecordRaw[] = [
         path: '/data/tablePage',
         component: () => import('@/views/data/tablepage.vue')
       },
-      {
-        path:"/reserve/design",
-        component:()=>import('@/views/reserve/design.vue')
-      }
+      
     ]
   }, 
+  {
+        path:"/reserve/design",
+        component:()=>import('@/views/reserve/design.vue')
+      },
   {
     path: '/exam/create_question/:id?',
     component: () => import('@/views/exam/create_question.vue')

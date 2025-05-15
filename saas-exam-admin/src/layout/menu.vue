@@ -100,7 +100,7 @@ const routeToClick = (index: number, path: string) => {
 .container1 {
   display: flex;
   height: 100vh;
-
+  width: 100%;
 }
 
 // .menuItem{

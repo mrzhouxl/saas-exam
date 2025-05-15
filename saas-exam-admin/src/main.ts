@@ -15,10 +15,11 @@ import '@nutui/icons-vue/dist/style_iconfont.css'
 import Vue3DraggableResizable from 'vue3-draggable-resizable'
 //需引入默认样式
 import 'vue3-draggable-resizable/dist/Vue3DraggableResizable.css'
-
+import ViewUiPlus from 'view-ui-plus';
+import 'view-ui-plus/dist/styles/viewuiplus.css';
 
 const app = createApp(App);
-app.use(Vue3DraggableResizable)
+app.use(ViewUiPlus)
 registerCom(app)
 app.directive('pointer', {
   mounted: (el: any) => {

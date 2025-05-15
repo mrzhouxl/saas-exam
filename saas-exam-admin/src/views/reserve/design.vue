@@ -1,27 +1,20 @@
 <template>
-  <div class="design-container flex w-full h-full">
-    <div class="flex-1 p-2 flex justify-center items-center bg" ref="container">
-      <!-- 画布撑满当前容器 -->
-      <Content class="w-full" style="display: flex; height: calc(100vh - 64px); position: relative">
-        <div id="workspace" class="w-full">
+  <div class="home">
+    <Layout>
+      <Content style="display: flex; height: calc(100vh - 84px); position: relative">
+        <!-- 画布区域 -->
+        <div id="workspace">
           <div class="canvas-box">
             <div class="inside-shadow"></div>
             <canvas id="canvas" :class="state.ruler ? 'design-stage-grid' : ''"></canvas>
           </div>
         </div>
       </Content>
-
-    </div>
-    <div class="operation-container w-[450px] h-full">
-      <div class="operation-item">
-        <button>添加图片</button>
-      </div>
-    </div>
+    </Layout>
   </div>
 </template>
 <script setup lang="ts">
 import { ref, shallowRef, onMounted, nextTick, reactive } from 'vue';
-import useCanvas from '@/hooks/useCanvas';
 import { fabric } from 'fabric';
 import Editor, {
   IEditor,
@@ -64,22 +57,11 @@ const state = reactive({
   select: null,
   ruler: true,
 });
-const { canvas, initCanvas, addImage } = useCanvas();
-// 获取当前dom的宽高
-const container = ref<HTMLDivElement>();
 
-const width = ref(0);
-const height = ref(0);
 // 创建编辑器
 const canvasEditor = new Editor() as IEditor;
-const getContainerSize = () => {
-  if (!container.value) return;
-  // 获取当前dom的宽高
-  width.value = container.value.clientWidth;
-  height.value = container.value.clientHeight;
-}
 
-onMounted(async () => {
+onMounted(() => {
   // 初始化fabric
   const canvas = new fabric.Canvas('canvas', {
     fireRightClick: true, // 启用右键，button的数字为3
@@ -122,9 +104,30 @@ onMounted(async () => {
     .use(LockPlugin)
     .use(AddBaseTypePlugin)
     .use(MaskPlugin);
+  // canvasEditor.rulerEnable();
 });
+onUnmounted(() => canvasEditor.destory());
+
+const addIamge = () => {
+  console.log(canvasEditor, "canvasEditor")
+};
 </script>
 <style scoped>
+:deep(.ivu-layout-header) {
+  --height: 45px;
+  padding: 0 0px;
+  border-bottom: 1px solid #eef2f8;
+  background: #fff;
+  height: var(--height);
+  line-height: var(--height);
+  display: flex;
+  justify-content: space-between;
+}
+
+.home,
+.ivu-layout {
+  height: 100vh;
+}
 .canvas-box {
   position: relative;
 }
@@ -136,6 +139,14 @@ onMounted(async () => {
   box-shadow: inset 0 0 9px 2px #0000001f;
   z-index: 2;
   pointer-events: none;
+}
+
+#workspace {
+  flex: 1;
+  width: 100%;
+  position: relative;
+  background: #f1f1f1;
+  overflow: hidden;
 }
 
 #canvas {

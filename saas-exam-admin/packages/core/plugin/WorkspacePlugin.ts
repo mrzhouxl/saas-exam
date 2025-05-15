@@ -59,6 +59,7 @@ class WorkspacePlugin implements IPluginTempl {
     if (!workspaceEl) {
       throw new Error('element #workspace is missing, plz check!');
     }
+    console.log(workspaceEl)
     this.workspaceEl = workspaceEl;
     this.workspace = null;
     this.option = option;
