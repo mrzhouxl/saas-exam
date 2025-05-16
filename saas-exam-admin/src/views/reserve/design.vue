@@ -1,16 +1,15 @@
 <template>
   <div class="home">
-    <Layout>
-      <Content style="display: flex; height: calc(100vh - 84px); position: relative">
-        <!-- 画布区域 -->
-        <div id="workspace">
-          <div class="canvas-box">
-            <div class="inside-shadow"></div>
-            <canvas id="canvas" :class="state.ruler ? 'design-stage-grid' : ''"></canvas>
-          </div>
+    <Top></Top>
+    <div class="flex w-full" style="height: calc(100vh - 60px);">
+      <Left></Left>
+      <div id="workspace" class="h-full">
+        <div class="canvas-box">
+          <div class="inside-shadow"></div>
+          <canvas id="canvas" :class="state.ruler ? 'design-stage-grid' : ''"></canvas>
         </div>
-      </Content>
-    </Layout>
+      </div>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -52,6 +51,8 @@ import Editor, {
   AddBaseTypePlugin,
   MaskPlugin,
 } from '@kuaitu/core';
+import Top from './components/Top.vue';
+import Left from './components/Left.vue'
 const state = reactive({
   show: false,
   select: null,
@@ -128,6 +129,7 @@ const addIamge = () => {
 .ivu-layout {
   height: 100vh;
 }
+
 .canvas-box {
   position: relative;
 }

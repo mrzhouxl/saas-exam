@@ -7,7 +7,7 @@
         暂无数据
       </div>
     </div>
-    <div class="flex-1 w-full" :class="{ 'items-center flex justify-center': !curValue }">
+    <div class="flex-1" :class="{ 'items-center flex justify-center': !curValue }">
       <div v-if="!curValue" class="flex justify-center flex-col items-center">
         <img style="width: 130px;" :src="noContent2" />
         <span class=" text-xs text-gray-500">暂无选择数据</span>

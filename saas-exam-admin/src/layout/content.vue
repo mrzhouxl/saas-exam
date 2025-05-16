@@ -32,7 +32,7 @@
             </div>
           </t-header>
           <t-content class="p-2">
-            <div class="content1">
+            <div class="content">
               <router-view></router-view>
             </div>
           </t-content>
@@ -76,7 +76,7 @@ const fullScreen = () => {
   width: 100%;
 }
 
-.content1 {
+.content {
   box-sizing: border-box;
   background: #fff;
   height: 100%;

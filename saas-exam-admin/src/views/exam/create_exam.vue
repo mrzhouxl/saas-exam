@@ -599,7 +599,7 @@ const addExam = (e: any) => {
   padding: 20px;
   width: 100%;
   overflow-y: scroll;
-  height: calc(100vh - 70px);
+  height: calc(100vh - 75px);
 
   .bottom-setting {
     width: 100%;
