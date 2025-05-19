@@ -37,7 +37,7 @@ export default defineComponent({
         // }
     },
     render() {
-        const url = `//at.alicdn.com/t/c/font_863307_p62btkonlng.css`
+        const url = `//at.alicdn.com/t/c/font_863307_0bnvivk465fe.css`
         return <>
             <IconFont tag={this.tag} loadDefaultIcons={this.loadDefaultIcons} onClick={this.onClick} icon-font class="iconfont" size={this.size} name={this.name}
                 url={url} style={{ color: this.color }}></IconFont>

@@ -1,5 +1,5 @@
 <template>
-    <div class="w-[420px] h-full flex">
+    <div class="w-[380px] h-full flex">
         <div class="asider w-[50px] h-full border-l border">
             <div 
                 v-for="item in menu" 
@@ -14,11 +14,12 @@
             </div>
         </div>
         <div class="flex-1">
-            
+            <Font></Font>
         </div>
     </div>
 </template>
 <script setup lang="ts">
+import Font from './Font.vue'
 const currentLeftItem = ref<string>('font')
 const menu = [
     {

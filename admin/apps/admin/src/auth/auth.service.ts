@@ -27,12 +27,12 @@ export class AuthService {
   public async login(mobile: string, code: number) {
     let token;
     //查询当前手机号是否在店铺是管理员
-    let adminUser = await this.adminUserModel.find({
+    let adminUser:AdminUser[] = await this.adminUserModel.find({
       mobile
     }).populate('tenant').lean()
     // console.log(adminUser)
     if (adminUser.length > 1) { //当前在多家店铺担任角色
-      let tenants = adminUser.map(v => v.tenant);
+      let tenants = adminUser.map((v:any) => v.tenant);
       //让用户选择在进行登录
       return tenants;
     } else {
