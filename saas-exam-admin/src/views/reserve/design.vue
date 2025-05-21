@@ -9,6 +9,7 @@
           <canvas id="canvas" :class="state.ruler ? 'design-stage-grid' : ''"></canvas>
         </div>
       </div>
+      <Right></Right>
     </div>
   </div>
 </template>
@@ -53,6 +54,7 @@ import Editor, {
 } from '@kuaitu/core';
 import Top from './components/Top.vue';
 import Left from './components/Left.vue'
+import Right from './components/Right.vue';
 const state = reactive({
   show: false,
   select: null,
@@ -112,6 +114,8 @@ onUnmounted(() => canvasEditor.destory());
 const addIamge = () => {
   console.log(canvasEditor, "canvasEditor")
 };
+provide('fabric', fabric);
+provide('canvasEditor', canvasEditor);
 </script>
 <style scoped>
 :deep(.ivu-layout-header) {

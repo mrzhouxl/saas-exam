@@ -1,5 +1,5 @@
 <template>
-    <div class="w-[380px] h-full flex">
+    <div class="w-[390px] h-full flex">
         <div class="asider w-[50px] h-full border-l border">
             <div 
                 v-for="item in menu" 
@@ -14,7 +14,7 @@
             </div>
         </div>
         <div class="flex-1">
-            <Font></Font>
+            <Font v-if="currentLeftItem === 'font'"></Font>
         </div>
     </div>
 </template>
