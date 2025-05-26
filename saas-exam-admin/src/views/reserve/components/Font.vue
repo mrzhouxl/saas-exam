@@ -15,7 +15,9 @@
         <div class="py-3 text-line">设计元素</div>
         <div class="w-full h-full">
             <div class="grid grid-cols-2 gap-4 justify-items-center overflow-y-auto h-[650px]">
-                <div v-for="item in 8" :key="item" class="w-[140px] h-[187px] rounded bg-red"></div>
+                <div v-for="item in materialList" :key="item.name" class="w-[140px] h-[187px] rounded">
+                    <img :src="item.img" class="w-full h-full">
+                </div>
             </div>
         </div>
     </div>
@@ -24,6 +26,10 @@
 import { inject } from 'vue';
 import Icon from '@/components/Icon';
 import useSelect from '@/hooks/select';
+import qiang from '@/assets/img/qiang.png'
+import zuowei from '@/assets/img/zuowei.png'
+import zuozi from '@/assets/img/zuozi.png'
+import flower from '@/assets/img/flower.png'
 const { canvasEditor } = useSelect()
 const defaultPosition = { shadow: '', fontFamily: 'arial' };
 const addFont = () => {
@@ -34,6 +40,26 @@ const addFont = () => {
     });
     canvasEditor.addBaseType(text, { center: true });
 }
+
+const materialList = [
+    {
+        name: '墙体',
+        img: ref(qiang),
+    },
+    {
+        name: '座位',
+        img: ref(zuowei),
+    },
+    {
+        name: '桌子',
+        img: ref(zuozi),
+    },
+    {
+        name: '花盆',
+        img: ref(flower),
+    }
+]
+
 
 const addRect = (event) => {
   const rect = new fabric.Rect({
