@@ -796,7 +796,8 @@ class AlignGuidLinePlugin implements IPluginTempl {
     canvas.on('mouse:up', (e) => {
       const activeObject = e.target;
       if (activeObject && activeObject.selectable && !activeObject.lockRotation) {
-        activeObject.set('hasControls', true);
+
+        activeObject.set('hasControls', activeObject.hasControls);
       }
       verticalLines.length = 0;
       horizontalLines.length = 0;

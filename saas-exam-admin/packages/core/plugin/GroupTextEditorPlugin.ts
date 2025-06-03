@@ -32,7 +32,7 @@ class GroupTextEditorPlugin implements IPluginTempl {
         !opt.target.lockScalingX &&
         !opt.target.lockScalingY
       ) {
-        opt.target.hasControls = true;
+        opt.target.hasControls = opt.target&&opt.target.hasControls?true:false;
       }
     });
 
