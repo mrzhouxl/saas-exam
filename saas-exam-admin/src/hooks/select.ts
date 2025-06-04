@@ -1,11 +1,11 @@
 import { inject, computed, reactive, onMounted, onBeforeMount } from 'vue';
-
 import Editor, { EventType } from '@kuaitu/core';
+import f from 'fabric';
 const { SelectMode, SelectEvent } = EventType;
 
 
 export default function useSelect(matchType?: Array<string>) {
-  const fabric = inject('fabric');
+  const fabric = inject<typeof f.fabric>('fabric')!;
   const canvasEditor = inject('canvasEditor') as Editor;
 
   const state = reactive({

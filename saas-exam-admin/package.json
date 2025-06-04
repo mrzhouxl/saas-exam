@@ -17,6 +17,7 @@
     "@tuniao/tn-icon": "^1.9.0",
     "@tuniao/tn-style": "^1.0.19",
     "@tuniao/tnui-vue3-uniapp": "^1.0.20",
+    "@types/fabric": "^5.3.10",
     "@types/lodash": "^4.14.184",
     "@types/vue": "^2.0.0",
     "@vueuse/core": "^10.4.0",

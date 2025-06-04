@@ -12,7 +12,7 @@
             </div>
         </div>
         <div class="py-3 text-line">设计元素</div>
-        <div class="w-full h-[650px]">
+        <div class="w-full max-h-[650px]">
             <div class="grid grid-cols-2 gap-2 justify-items-center">
                 <div v-for="item in materialList" :key="item.name"
                     class="w-[140px] relative cursor-pointer rounded transition-transform duration-200 hover:scale-105 group bg-[#e5e1e1] flex items-center justify-center">
@@ -31,18 +31,6 @@
 import { inject } from 'vue';
 import Icon from '@/components/Icon';
 import useSelect from '@/hooks/select';
-enum IControlKey {
-    bl = 'bl',
-    br = 'br',
-    mb = 'mb',
-    ml = 'ml',
-    mr = 'mr',
-    mt = 'mt',
-    tl = 'tl',
-    tr = 'tr',
-    mtr = 'mtr',
-    lock = 'lock',
-}
 const { canvasEditor, fabric } = useSelect()
 const defaultPosition = { shadow: '', fontFamily: 'arial' };
 const addFont = () => {
@@ -53,6 +41,14 @@ const addFont = () => {
     });
     canvasEditor.addBaseType(text, { center: true });
 }
+
+interface MaterialItem {
+    name: string;
+    value: string;
+    img: string;
+    icon: string;
+}
+
 
 const materialList = [
     {
@@ -79,10 +75,10 @@ const materialList = [
         img: "http://oss.qinglingdesign.cn/yuyue/flower.png",
         icon: "http://oss.qinglingdesign.cn/yuyue/fff.png"
     }
-]
+] as MaterialItem[];
 
 
-const addRect = (event) => {
+const addRect = () => {
     const rect = new fabric.Rect({
         ...defaultPosition,
         fill: '#F57274FF',
@@ -90,17 +86,12 @@ const addRect = (event) => {
         height: 400,
         name: '矩形',
     });
-    // 关闭拖拽点
-    rect.set({
-        hasControls: false,
-        borderColor: '#F57274FF',
-        borderOpacityWhenMoving: 0,
-        borderScaleFactor: 0,
-    });
-    console.log(canvasEditor, 'canvasEditor')
+    rect.setOptions({
+        mateControls: true,
+    })
     canvasEditor.addBaseType(rect, { center: true, event });
 };
-const addMaterial = (item) => {
+const addMaterial = (item: MaterialItem) => {
     if (item.value === 'qiang') {
         // 画一个墙体，用矩形
         const rect = new fabric.Rect({
@@ -110,18 +101,43 @@ const addMaterial = (item) => {
             height: 400,
             name: 'qiang',
         });
-        // 关闭拖拽点
-        rect.set({
-            borderColor: '#F57274FF',
-            borderOpacityWhenMoving: 0,
-            borderScaleFactor: 0,
-        });
+        rect.setOptions({
+            mateControls: true,
+        })
         canvasEditor.addBaseType(rect, { center: true, event });
         return
     }
+    if (item.value === 'zuowei') {
+        const text = new fabric.IText("序号", {
+            ...defaultPosition,
+            fontSize: 20,
+            fill: '#FFFFFF',
+            hasControls: false,
+            originX: 'center',
+            originY: 'center' // 文字中心对齐
+        });
+        text.setOptions({
+            mateControls: false
+        })
+        fabric.Image.fromURL(item.icon, (img) => {
+            img.scaleToWidth(50);
+            img.scaleToHeight(50);
+            // 设置通用属性
+            img.set({
+                name: item.name,
+                hasControls: false,
+                originX: 'center',
+                originY: 'center'
+            });
+            text.setOptions({
+                mateControls: false
+            })
+            const group = new fabric.Group([img,text], { hasControls: false, name: 'zuowei' })
+            canvasEditor.addBaseType(group, { center: true });
+        }, { crossOrigin: 'anonymous' });
+        return
+    }
     fabric.Image.fromURL(item.icon, (img) => {
-        // 需要缩放的统一处理
-
         img.scaleToWidth(50);
         img.scaleToHeight(50);
         // 设置通用属性
