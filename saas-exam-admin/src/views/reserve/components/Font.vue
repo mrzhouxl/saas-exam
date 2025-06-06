@@ -111,10 +111,11 @@ const addMaterial = (item: MaterialItem) => {
         const text = new fabric.IText("序号", {
             ...defaultPosition,
             fontSize: 20,
-            fill: '#FFFFFF',
+            fill: '#000000',
             hasControls: false,
             originX: 'center',
-            originY: 'center' // 文字中心对齐
+            originY: 'center', // 文字中心对齐
+            type:'text'
         });
         text.setOptions({
             mateControls: false
@@ -124,15 +125,15 @@ const addMaterial = (item: MaterialItem) => {
             img.scaleToHeight(50);
             // 设置通用属性
             img.set({
-                name: item.name,
+                name: item.value,
                 hasControls: false,
                 originX: 'center',
                 originY: 'center'
             });
-            text.setOptions({
-                mateControls: false
+            text.set({
+                top: img.getScaledHeight() - 5// 图片下方5px
             })
-            const group = new fabric.Group([img,text], { hasControls: false, name: 'zuowei' })
+            const group = new fabric.Group([img, text], { hasControls: false, name: 'zuowei', originX: 'center', originY: 'center' })
             canvasEditor.addBaseType(group, { center: true });
         }, { crossOrigin: 'anonymous' });
         return
@@ -142,7 +143,7 @@ const addMaterial = (item: MaterialItem) => {
         img.scaleToHeight(50);
         // 设置通用属性
         img.set({
-            name: item.name,
+            name: item.value,
             hasControls: false,
             originX: 'center',
             originY: 'center'
