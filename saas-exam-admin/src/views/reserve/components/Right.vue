@@ -18,17 +18,17 @@
             <div class="flex items-center gap-2 bg-[#f5f5f5] p-2 rounded-lg">
                 <div>
                     <span>宽度</span>
-                    <span><t-input class="w-[140px]" v-model="canvasSize.width" /></span>
+                    <span><t-input class="w-[140px]" v-model.number="canvasSize.width" /></span>
                 </div>
                 <div>
                     <span>高度</span>
-                    <span><t-input class="w-[140px]" v-model="canvasSize.height" /></span>
+                    <span><t-input class="w-[140px]" v-model.number="canvasSize.height" /></span>
                 </div>
             </div>
         </div>
 
         <!-- Section: 颜色 -->
-        <div class="space-y-2" v-if="comAttr.type === 'zuowei'||comAttr.type === 'qiang'">
+        <div class="space-y-2" v-if="comAttr.type === 'zuowei' || comAttr.type === 'qiang'">
             <h3 class="text-sm text-gray-600 font-semibold">颜色</h3>
             <div class="flex items-center gap-2 bg-[#f5f5f5] p-2 rounded-lg">
                 <t-color-picker class="w-full" format="HEX" :value="comAttr.fill" @change="handleChangeColor"
@@ -48,7 +48,7 @@
         </div>
 
         <!-- Section: 位置 -->
-        <div class="space-y-2" v-if="comAttr.type === 'zuowei'||comAttr.type === 'zuozi'">
+        <div class="space-y-2" v-if="comAttr.type === 'zuowei' || comAttr.type === 'zuozi'">
             <h3 class="text-sm text-gray-600 font-semibold">位置</h3>
             <div class="flex items-center gap-2 bg-[#f5f5f5] p-2 rounded-lg">
                 <DirectionControl @direction="handleDirection" />
@@ -61,9 +61,9 @@ import { reactive } from 'vue';
 import DirectionControl from './DirectionControl.vue';
 import useSelect from '@/hooks/select';
 import { fabric } from 'fabric';
-import { ColorObject, ColorPickerChangeTrigger} from 'tdesign-vue-next';
+import { ColorObject, ColorPickerChangeTrigger } from 'tdesign-vue-next';
 import { values } from 'lodash';
-const { canvasEditor, mixinState,isOne } = useSelect()
+const { canvasEditor, mixinState, isOne } = useSelect()
 const update = getCurrentInstance();
 const canvasSize = reactive({
     width: 0,
@@ -71,10 +71,16 @@ const canvasSize = reactive({
 })
 
 const comAttr = reactive({
-    type:'',
+    type: '',
     fill: '',
     seatNumber: ''
 })
+
+
+watch(()=>[canvasSize.height, canvasSize.width],()=>{
+    setSize()
+})
+
 
 const getObjectAttr = () => {
     const activeObject = canvasEditor.canvas?.getActiveObjects()[0];
@@ -82,11 +88,11 @@ const getObjectAttr = () => {
     // if (e && e.target && e.target !== activeObject) return;
     if (activeObject && isOne.value) {
         comAttr.type = activeObject.name
-        if(activeObject.name === 'zuowei'){
-            const active = activeObject.getObjects().find(v=>v.type==='text');
+        if (activeObject.name === 'zuowei') {
+            const active = activeObject.getObjects().find(v => v.type === 'text');
             const fill = active.get('fill')
             comAttr.fill = fill;
-        }else {
+        } else {
             const fill = activeObject.get('fill') as string
             comAttr.fill = fill;
         }
@@ -94,6 +100,22 @@ const getObjectAttr = () => {
         comAttr.seatNumber = seatNumber
     }
 }
+
+const getWorkSpaceSize = () => {
+    const size = canvasEditor.getWorkspase();
+    const { width: w, height: h } = size || {};
+    canvasSize.width = w;
+    canvasSize.height = h;
+    canvasEditor.on('sizeChange', (w: number, h: number) => {
+        canvasSize.width = w;
+        canvasSize.height = h;
+    });
+}
+
+const setSize = () => {
+    canvasEditor.setSize(canvasSize.width, canvasSize.height);
+};
+
 const handleDelete = () => {
     const activeObject = canvasEditor.canvas?.getActiveObjects()[0];
     if (activeObject) {
@@ -107,18 +129,18 @@ const handleCopy = () => {
     }
 }
 const selectCancel = () => {
-  update?.proxy?.$forceUpdate();
+    update?.proxy?.$forceUpdate();
 };
 onMounted(() => {
-    // 获取画布宽高
-    canvasSize.width = canvasEditor.canvas?.getWidth() as number
-    canvasSize.height = canvasEditor.canvas?.getHeight() as number
-    canvasEditor.on('selectCancel', selectCancel);
-    canvasEditor.on('selectOne', getObjectAttr);
+    nextTick(() => {
+        getWorkSpaceSize();
+        canvasEditor.on('selectCancel', selectCancel);
+        canvasEditor.on('selectOne', getObjectAttr);
+    });
 });
 onBeforeUnmount(() => {
-  canvasEditor.off('selectCancel', selectCancel);
-  canvasEditor.off('selectOne', getObjectAttr);
+    canvasEditor.off('selectCancel', selectCancel);
+    canvasEditor.off('selectOne', getObjectAttr);
 });
 
 
@@ -161,8 +183,8 @@ const handleChangeColor = (value: string, context: { color: ColorObject; trigger
                 });
             }
         });
-    }else {
-        activeObject?.set('fill',value)
+    } else {
+        activeObject?.set('fill', value)
     }
     activeObject.setCoords();
     canvasEditor.canvas?.renderAll();
@@ -171,7 +193,7 @@ const handleChangeColor = (value: string, context: { color: ColorObject; trigger
 
 const updateNumber = (val: number) => {
     const activeObject = canvasEditor.canvas?.getActiveObjects()[0];
-    console.log(activeObject,val,'activeObject')
+    console.log(activeObject, val, 'activeObject')
     if (activeObject?.type === 'group') {
         activeObject.setOptions({
             seatNumber: val

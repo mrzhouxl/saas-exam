@@ -15,22 +15,26 @@
         </div>
         <div class="flex-1">
             <Font v-if="currentLeftItem === 'font'"></Font>
+            <Layer v-if="currentLeftItem === 'layer'"></Layer>
         </div>
     </div>
 </template>
 <script setup lang="ts">
 import Font from './Font.vue'
+import Layer from './Layer.vue'
 const currentLeftItem = ref<string>('font')
 const menu = [
     {
         name: '文字',
         value: 'font',
         icon: "textformat-color"
-    }, {
-        name: "素材",
-        value: 'material',
-        icon: "app"
-    }, {
+    }, 
+    // {
+    //     name: "素材",
+    //     value: 'material',
+    //     icon: "app"
+    // }, 
+    {
         name: "图层",
         value: 'layer',
         icon: "layers"
