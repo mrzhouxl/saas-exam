@@ -75,7 +75,7 @@ export const menus: Menu[] = [
         size: '1rem'
       },
       {
-        path: '/reserve/design',
+        path: '/reserve/list',
         name: '预约设计',
         children: [],
         icon: 'icon-yiliao_peizhijiemian',

@@ -31,10 +31,8 @@
               </div>
             </div>
           </t-header>
-          <t-content class="p-2">
-            <div class="content">
+          <t-content class="m-2 bg-white">
               <router-view></router-view>
-            </div>
           </t-content>
         </t-layout>
       </t-layout>

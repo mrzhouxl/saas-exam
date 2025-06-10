@@ -52,7 +52,13 @@ const routes: RouteRecordRaw[] = [
         path: '/data/tablePage',
         component: () => import('@/views/data/tablepage.vue')
       },
-      
+      {
+        path:"/reserve/list",
+        component:()=>import('@/views/reserve/list.vue')
+      },{
+        path:"/reserve/edit/:id",
+        component:()=>import('@/views/reserve/edit.vue')
+      }
     ]
   }, 
   {
