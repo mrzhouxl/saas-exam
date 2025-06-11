@@ -5,14 +5,15 @@
     <div>
         <DataTable></DataTable>
     </div>
-    <t-dialog v-model:visible="visible" header="预约" width="40%" :confirm-on-enter="true" :on-close="close">
-        <t-radio-group v-model="type" allow-uncheck name="city" :options="options"
-            @change="handleRadioChange"></t-radio-group>
+    <t-dialog v-model:visible="visible" header="预约" width="40%" :confirm-on-enter="true" :on-close="close"
+        @confirm="handleRadioChange">
+        <t-radio-group v-model="type" allow-uncheck name="city" :options="options"></t-radio-group>
     </t-dialog>
 </template>
 <script setup lang="ts">
 import DataTable from '@/components/DataTable.vue';
-
+import { useRouter } from 'vue-router'
+const router = useRouter();
 const visible = ref<Boolean>(false)
 const type = ref<string>('common')
 const options = [
@@ -27,8 +28,8 @@ const options = [
 const close = () => {
     visible.value = false;
 }
-const handleRadioChange = (value: string, context: { e: Event; name?: string }) => {
-    
+const handleRadioChange = (context: { e: MouseEvent | KeyboardEvent }) => {
+    router.push({ path: `/reserve/edit/${type.value}` })
 }
 
 </script>

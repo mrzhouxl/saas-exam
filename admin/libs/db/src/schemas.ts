@@ -9,6 +9,7 @@ import { Oauth } from '../models/oauth.model';
 import { Tenant } from '../models/tenant.model'
 import { DynamicDb } from '../models/dynamic_db.model';
 import { DynamicTable } from '../models/dynamic_table.model';
+import { Reserve } from '../models/reserve.model';
 
 
 export const schemas = [
@@ -22,4 +23,5 @@ export const schemas = [
   ExamItem,
   DynamicDb,
   DynamicTable,
+  Reserve
 ];

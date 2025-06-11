@@ -56,7 +56,7 @@ const routes: RouteRecordRaw[] = [
         path:"/reserve/list",
         component:()=>import('@/views/reserve/list.vue')
       },{
-        path:"/reserve/edit/:id",
+        path:"/reserve/edit/:type/:id?",
         component:()=>import('@/views/reserve/edit.vue')
       }
     ]

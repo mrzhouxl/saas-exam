@@ -10,7 +10,8 @@ const qiniu = require("qiniu");
 @Controller('upload')
 export class UploadController {
   constructor(
-    @InjectModel(UserFile) private readonly userFileModel: ReturnModelType<typeof UserFile>
+    @InjectModel(UserFile) private readonly userFileModel: ReturnModelType<typeof UserFile>,
+    private readonly uploadService: UploadService
   ) { }
 
   @Post('token')
@@ -55,16 +56,8 @@ export class UploadController {
   @HttpCode(200)
   @UseInterceptors(FileInterceptor('file'))
   async upload(@UploadedFile() file, @Body() body) {
-    const { type } = body
-    const options = {
-      scope: 'blogzxl',
-      expires: 7200,
-    };
-    const filename = new Date().getTime() + '.' + file.originalname.split('.').slice(-1);
+    const { token, filename } = await this.uploadService.getYuyueToken('blogzxl', file.originalname)
     //初始化
-    var mac = new qiniu.auth.digest.Mac(process.env.QINIUKEY, process.env.QINIUSECRET);
-    const putPolicy = new qiniu.rs.PutPolicy(options);
-    const uploadToken = putPolicy.uploadToken(mac);
     var config = new qiniu.conf.Config();
     config.zone = qiniu.zone.Zone_z2;
     const formUploader = new qiniu.form_up.FormUploader(config);
@@ -72,7 +65,7 @@ export class UploadController {
     const stream = await this.uploadToOSS(file);
     var putExtra = new qiniu.form_up.PutExtra();
     const res: any = await new Promise((resolve, reject) => {
-      formUploader.putStream(uploadToken, filename, stream, putExtra, (respErr,
+      formUploader.putStream(token, filename, stream, putExtra, (respErr,
         respBody, respInfo) => {
         if (respErr) {
           reject(respErr);
@@ -86,18 +79,11 @@ export class UploadController {
       });
     })
     // 改成oss的文件路径
-    const url = '' + res.key
-    // 保存文件
-    const img = await this.userFileModel.create({
-      type: type || 'image',
-      // filename:url.split('/')
-      baseUrl: url
-    })
     return Result.success({
       // 改成oss的文件路径
-      file: '' + res.key,
-      filename: res.key,
-      status: true
+      file: res.key,
+      filename: filename,
+      status: 'success'
     })
   }
 }
