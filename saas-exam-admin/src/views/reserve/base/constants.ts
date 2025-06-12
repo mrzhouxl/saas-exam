@@ -18,11 +18,19 @@ export const FORM_RULES: Record<string, FormRule[]> = {
     ],
     project: [
         {
-            validator: ({ value, formData }) => {
-                return !formData.is_subporject || (formData.is_subporject && value.length > 0);
+            validator: (val, context) => {
+                const formData = val
+                if (!Array.isArray(val) || val.length === 0) {
+                    return false;
+                }
+                // 检查每项是否 name 和 description 都有值
+                return val.every(item => {
+                    return item.name?.trim() && item.description?.trim();
+                });
             },
-            message: '请填写子项目',
-            type: 'error'
+            message: '请完善所有子项目的名称和描述',
+            type: 'error',
         }
     ]
+
 };

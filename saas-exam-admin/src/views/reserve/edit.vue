@@ -1,6 +1,6 @@
 <template>
     <div class="p-2">
-        <div class="flex justify-center w-full flex-col items-center overflow-y-auto">
+        <div class="flex justify-center w-full flex-col items-center ">
             <t-form statusIcon labelAlign="top" :rules="FORM_RULES" layout="inline" :data="reserveForm">
                 <div class="w-[675px]">
                     <div class="text-2xl">{{ params.type === 'common' ? '通用预约' : "座位预约" }}</div>
@@ -34,17 +34,7 @@
                         </t-col>
                         <t-col :span="8">
                             <t-form-item label="展示头图" name="banner">
-                                <t-upload :files="computedBanners" :headers="{
-                                    'Authorization': `Bearer ${user.token}`,
-                                    'x-tenant-id': user.tenant._id
-                                }" :action="`${apiUrl}/upload/img`" theme="image" tips="单张图片文件上传（上传成功状态演示）"
-                                    :size-limit="1024" multiple :max="3" accept="image/*"
-                                    :formatResponse="formatResponse" @success="successUpload" :locale="{
-                                        triggerUploadText: {
-                                            image: '请选择图片',
-                                        },
-                                    }">
-                                </t-upload>
+                                <ImageUploader v-model="reserveForm.banner" />
                             </t-form-item>
                         </t-col>
                         <t-col :span="6">
@@ -67,26 +57,67 @@
                         <t-col :span="8" v-if="reserveForm.is_subporject">
                             <t-form-item label="子项目" name="project">
                                 <div class="w-full">
-                                    <template v-for="(item, index) in reserveForm.project">
-                                        <div class="w-full flex">
-                                            <div>
-                                                上传
-                                            </div>
-                                            <div>
-                                                <t-input v-model="item.name"></t-input>
-                                            </div>
-                                            <div>
-                                                <t-textarea v-model="item.description"></t-textarea>
-                                            </div>
-                                            <div>
-                                                <t-input v-model="item.name" type="number"></t-input>
-                                            </div>
-                                        </div>
-                                    </template>
+                                    <div class="mb-2 flex justify-between items-center">
+                                        <span class="text-lg font-medium">子项目设置</span>
+                                        <t-button theme="primary" @click="addRow">添加子项目</t-button>
+                                    </div>
+                                    <table class="w-full table-fixed border border-gray-300">
+                                        <thead>
+                                            <tr class="bg-gray-100 text-left text-sm">
+                                                <th class="border border-gray-300 p-2 w-[150px]">宣传图</th>
+                                                <th class="border border-gray-300 p-2 w-[200px]">名称</th>
+                                                <th class="border border-gray-300 p-2 w-[200px]">描述</th>
+                                                <th class="border border-gray-300 p-2 w-[120px]">剩余</th>
+                                                <th class="border border-gray-300 p-2 w-[80px]">操作</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr v-for="(item, index) in reserveForm.project" :key="index"
+                                                class="align-top">
+                                                <td class="border border-gray-300 align-middle p-2" align="center">
+                                                    <div class="flex justify-center items-center">
+                                                        <ImageUploader v-model="item.banner" :multiple="false"
+                                                            :max="1" />
+                                                    </div>
+                                                </td>
+                                                <td class="border border-gray-300 align-middle p-2" align="center">
+                                                    <div class="flex justify-center items-center">
+                                                        <t-input v-model="item.name" placeholder="请输入名称" />
+                                                    </div>
+                                                </td>
+                                                <td class="border border-gray-300 p-2 align-middle min-h-[150px]"
+                                                    align="center">
+                                                    <div class="flex justify-center items-center h-full">
+                                                        <t-textarea v-model="item.description" placeholder="请输入描述" />
+                                                    </div>
+                                                </td>
+                                                <td class="border border-gray-300 align-middle p-2" align="center">
+                                                    <div class="flex justify-center items-center h-full">
+                                                        <t-input v-model="item.remaining" type="number" />
+                                                    </div>
+                                                </td>
+                                                <td class="border border-gray-300 align-middle p-2 text-center"
+                                                    align="center">
+                                                    <t-button theme="danger" size="small"
+                                                        @click="removeRow(index)">删除</t-button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </t-form-item>
                         </t-col>
                     </t-row>
+                </div>
+                <div class="form-submit-container">
+                    <div class="form-submit-left">
+                        <t-button theme="primary" class="form-submit-confirm" type="submit">
+                            确认提交
+                        </t-button>
+                        <t-button type="reset" class="form-submit-cancel" theme="default" variant="base">
+                            取消
+                        </t-button>
+                    </div>
                 </div>
             </t-form>
         </div>
@@ -95,9 +126,8 @@
 <script setup lang="ts">
 import { useRouteParams } from '@/utils/useRouteParams'
 import { SuccessContext } from 'tdesign-vue-next';
-import { userStore } from '@/store/userStore';
 import { FORM_RULES } from './base/constants'
-const user = userStore()
+import ImageUploader from '@/components/ImageUploader.vue';
 const { params, query, fullPath } = useRouteParams()
 interface ReserveForm {
     name: string;              // 预约名称
@@ -116,7 +146,6 @@ interface ReserveForm {
     description: string;
     tags: [];
 }
-const apiUrl = import.meta.env.VITE_API_URL
 const reserveForm = reactive<ReserveForm>({
     name: "",
     type: "",
@@ -130,37 +159,48 @@ const reserveForm = reactive<ReserveForm>({
     description: "",
     tags: []
 })
-const computedBanners = computed(() => {
-    return reserveForm.banner.map(item => {
-        return {
-            ...item,
-            url: `${import.meta.env.VITE_IMG_BASE_URL}${item.url}`
-        }
-    })
-})
-const formatResponse = (e: any) => {
-    return { name: e.data.file.split('/').pop(), url: e.data.file };
+
+
+
+const addRow = () => {
+    reserveForm.project.push({
+        banner: '',
+        name: '',
+        description: '',
+        price: ''
+    });
 };
 
-const successUpload = async (content: SuccessContext) => {
-    const file = content.file;
-    console.log(content, 'content')
-    const url = file?.response?.url
-    const name = file?.response?.name
-    if (file) {
-        reserveForm.banner.push({
-            name,
-            url,
-            status: file.status as string
-        });
-    }
-}
+const removeRow = (index: number) => {
+    reserveForm.project.splice(index, 1);
+};
 
 const handleChange = (value: any) => {
-    console.log(value, 'value')
     reserveForm.start_time = value[0]
     reserveForm.end_time = value[1]
 }
 
 </script>
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.form-submit-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: var(--td-comp-paddingLR-xl);
+    padding-bottom: var(--td-comp-paddingLR-xl);
+    border-bottom-left-radius: var(--td-radius-medium);
+    border-bottom-right-radius: var(--td-radius-medium);
+    border-top: 1px solid var(--td-component-stroke);
+
+    .form-submit-left {
+        .form-submit-upload-span {
+            font-size: 14px;
+            line-height: 22px;
+            color: var(--td-text-color-placeholder);
+            padding-top: 8px;
+            display: inline-block;
+        }
+    }
+}
+</style>

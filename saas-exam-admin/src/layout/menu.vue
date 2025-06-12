@@ -41,7 +41,6 @@ import { onBeforeUnmount, onMounted, ref, watchEffect } from 'vue';
 import { Menu, menus } from './menu'
 import { loginStore } from '@/store/loginStore';
 import { useRoute, useRouter } from 'vue-router';
-import { isStaticArgOf } from '@vue/compiler-core';
 import { MenuValue } from 'tdesign-vue-next/es/menu/type';
 import IconFont from '@/components/Icon'
 const menuValue1 = ref<MenuValue>()

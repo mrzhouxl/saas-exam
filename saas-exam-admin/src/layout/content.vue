@@ -20,7 +20,7 @@
               </div>
               <div class="right-user">
                 <div @click="fullScreen">
-                  <IconFont size="20" :name="!isFull ? 'icon-quanping' : 'icon-guanbiquanping'" >
+                  <IconFont size="20" :name="!isFull ? 'icon-quanping' : 'icon-guanbiquanping'">
                   </IconFont>
                 </div>
                 <!-- <icon name="check-circle-filled" @click="fullScreen" /> -->
@@ -31,15 +31,17 @@
               </div>
             </div>
           </t-header>
-          <t-content class="m-2 bg-white">
+          <t-content class="p-2 content-box">
+            <div class="l-content">
               <router-view></router-view>
+            </div>
           </t-content>
         </t-layout>
       </t-layout>
     </t-layout>
   </div>
 </template>
-  
+
 <script setup lang='ts'>
 import layoutMenu from './menu.vue';
 import { loginStore } from '@/store/loginStore'
@@ -67,17 +69,18 @@ const fullScreen = () => {
   }
 }
 </script>
-  
+
 <style lang="less" scoped>
 .left-menu {
   height: 100vh;
   width: 100%;
 }
 
-.content {
+.l-content {
   box-sizing: border-box;
   background: #fff;
-  height: 100%;
+  height: calc(100vh - var(--td-comp-size-xxxl) - 16px);
+  overflow-y: scroll;
   width: 100%;
 }
 
