@@ -1,7 +1,8 @@
 <template>
     <div class="p-2">
         <div class="flex justify-center w-full flex-col items-center ">
-            <t-form statusIcon labelAlign="top" :rules="FORM_RULES" layout="inline" :data="reserveForm">
+            <t-form statusIcon labelAlign="top" :rules="FORM_RULES" layout="inline" @submit="handleSubmit"
+                :data="reserveForm">
                 <div class="w-[675px]">
                     <div class="text-2xl">{{ params.type === 'common' ? '通用预约' : "座位预约" }}</div>
                     <t-row class="row-gap" :gutter="[32, 24]">
@@ -12,7 +13,10 @@
                         </t-col>
                         <t-col :span="6">
                             <t-form-item label="预约类型" name="type">
-                                <t-input :style="{ width: '322px' }" v-model="reserveForm.type" placeholder="请输入内容" />
+                                <t-radio-group disabled v-model="reserveForm.type" name="type">
+                                    <t-radio value="COMMON">通用预约</t-radio>
+                                    <t-radio value="SEAT">座位预约</t-radio>
+                                </t-radio-group>
                             </t-form-item>
                         </t-col>
                         <t-col :span="12">
@@ -114,7 +118,7 @@
                         <t-button theme="primary" class="form-submit-confirm" type="submit">
                             确认提交
                         </t-button>
-                        <t-button type="reset" class="form-submit-cancel" theme="default" variant="base">
+                        <t-button type="reset" class="form-submit-cancel ml-2" theme="default" variant="base">
                             取消
                         </t-button>
                     </div>
@@ -125,10 +129,16 @@
 </template>
 <script setup lang="ts">
 import { useRouteParams } from '@/utils/useRouteParams'
-import { SuccessContext } from 'tdesign-vue-next';
 import { FORM_RULES } from './base/constants'
 import ImageUploader from '@/components/ImageUploader.vue';
+import { MessagePlugin, SubmitContext } from 'tdesign-vue-next';
+import { createReserve } from '@/api/reserve';
+import { route } from '@/router';
+import { useRouter } from 'vue-router';
 const { params, query, fullPath } = useRouteParams()
+onMounted(() => {
+    reserveForm.type = params.value.type as string
+})
 interface ReserveForm {
     name: string;              // 预约名称
     type: string;              // 预约类型
@@ -161,7 +171,6 @@ const reserveForm = reactive<ReserveForm>({
 })
 
 
-
 const addRow = () => {
     reserveForm.project.push({
         banner: '',
@@ -178,6 +187,20 @@ const removeRow = (index: number) => {
 const handleChange = (value: any) => {
     reserveForm.start_time = value[0]
     reserveForm.end_time = value[1]
+}
+const route = useRouter()
+const handleSubmit = async ({ validateResult, firstError, e }: SubmitContext<ReserveForm>) => {
+    //@ts-ignore
+    e.preventDefault();
+    if (validateResult === true) {
+        const data = await createReserve<ReserveForm>(reserveForm)
+        if (data._id) {
+            MessagePlugin.success('提交成功');
+            route.go(-1)
+        }
+    } else {
+        console.log('Validate Errors: ', firstError, validateResult);
+    }
 }
 
 </script>

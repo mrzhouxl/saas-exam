@@ -16,7 +16,6 @@
 import service from '@/utils/axios';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { onMounted, ref, useSlots, watch, useAttrs, computed } from 'vue';
-import { cloneDeep } from 'lodash';
 const props = defineProps({
   page: {
     type: Boolean,
@@ -84,7 +83,9 @@ const fetch = async (query?: any) => {
   })
 }
 watch(() => props.query, (n, o) => {
-  fetch()
+  if (props.action) {
+    fetch();
+  }
 }, { immediate: true })
 
 let pagination = ref<any>({

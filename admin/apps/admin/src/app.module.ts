@@ -20,6 +20,7 @@ import { ClockInModule } from './clock-in/clock-in.module';
 import { CityModule } from './city/city.module';
 import { DynamicTableModule } from './dynamic-table/dynamic-table.module';
 import { DynamicDbModule } from './dynamic-db/dynamic-db.module';
+import { ReserveModule } from './reserve/reserve.module';
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { DynamicDbModule } from './dynamic-db/dynamic-db.module';
     ClockInModule,
     CityModule,
     DynamicTableModule,
-    DynamicDbModule
+    DynamicDbModule,
+    ReserveModule
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -3,7 +3,7 @@ import { BaseModel } from "./base.model";
 
 export enum ReserveEnum {
     COMMON = 'COMMON',
-    RESERVE = "RESERVE"
+    SEAT = "SEAT"
 }
 
 
