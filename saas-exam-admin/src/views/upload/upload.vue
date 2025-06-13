@@ -3,7 +3,7 @@
     <t-card :bordered="false">
       <t-button @click="visibleDialog = true">上传图片</t-button>
       <div class="m-t-10">
-        <data-table ref="tableList" action="http://localhost:5000/admin/userfile" row-key="index" :columns="columns"
+        <data-table ref="tableList" action="/userfile" row-key="index" :columns="columns"
           :bordered="false" :hover="true" :table-layout="'auto'" size="medium" :pagination="pagination">
           <template #status="{ scope }">
             <div class="status" v-if="!scope.row.status">正常</div>
@@ -14,14 +14,14 @@
         </data-table>
       </div>
     </t-card>
-    <t-dialog width="60%" v-model:visible="visibleDialog" @confirm="dialogConfirm">
+    <!-- <t-dialog width="60%" v-model:visible="visibleDialog" @confirm="dialogConfirm">
       <t-upload v-model="files" ref="uploadRef1" :headers="{
         'Authorization': `Bearer ${token}`,
         'x-tenant-id': user.tenant._id
       }" action="http://localhost:5000/admin/upload/img" theme="image" tips="单张图片文件上传（上传成功状态演示）" accept="image/*"
         :formatResponse="formatResponse" @success="successUpload">
       </t-upload>
-    </t-dialog>
+    </t-dialog> -->
   </div>
 </template>
 <script setup lang="tsx">

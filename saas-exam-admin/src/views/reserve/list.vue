@@ -3,8 +3,9 @@
         <t-button @click="() => (visible = true)">创建预约</t-button>
     </div>
     <div class="p-2">
-        <DataTable :action="action" :query="{}" :columns="columns" :page-size="5" :bordered="false" :hover="true"
-            :table-layout="'auto'" size="medium"></DataTable>
+        <DataTable row-key="id" :action="action" :query="{}" :columns="columns">
+            
+        </DataTable>
     </div>
     <t-dialog v-model:visible="visible" header="预约" width="40%" :confirm-on-enter="true" :on-close="close"
         @confirm="handleRadioChange">
@@ -17,7 +18,7 @@ import { useRouter } from 'vue-router'
 const router = useRouter();
 const visible = ref<Boolean>(false)
 const type = ref<string>('common')
-const action = ref<string>('http://localhost:5000/admin/reserve')
+const action = ref<string>('/reserve')
 const options = [
     {
         value: 'COMMON',

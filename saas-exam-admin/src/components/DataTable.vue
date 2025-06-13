@@ -13,7 +13,7 @@
   </t-table>
 </template>
 <script setup lang="ts">
-import service from '@/utils/axios';
+import service, { get } from '@/utils/axios';
 import { MessagePlugin } from 'tdesign-vue-next';
 import { onMounted, ref, useSlots, watch, useAttrs, computed } from 'vue';
 const props = defineProps({
@@ -70,7 +70,7 @@ const remove = async (row: any) => {
   }
 }
 const fetch = async (query?: any) => {
-  let res: any = await service.get(props.action, {
+  let res: any = await get(props.action, {
     params: {
       query: query ? query : props.query
     }
